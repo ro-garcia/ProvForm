@@ -1,0 +1,12 @@
+# Local Power Automate HTTP trigger URL contains a signed secret.
+config.local.js
+
+# Generated previews and unrelated sample project in this workspace.
+_render_test/
+personas_php_xampp/
+personas_php_xampp.rar
+
+# Operating system and editor artifacts.
+.DS_Store
+Thumbs.db
+*.log

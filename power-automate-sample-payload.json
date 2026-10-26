@@ -1,0 +1,33 @@
+{
+  "formulario": "proveedor",
+  "fecha_envio": "2026-09-24T15:00:00.000Z",
+  "empresa_solicitante": "REPIMEX S.A.",
+  "empresa_codigo": "RX",
+  "tipo_solicitud": "creacion",
+  "solicitado_por": "Nombre Apellido",
+  "correo_solicitante": "solicitante@example.com",
+  "datos": {
+    "empresa_solicitante": "REPIMEX S.A.",
+    "empresa_codigo": "RX",
+    "departamento_solicitante": "FINANZAS",
+    "solicitado_por": "Nombre Apellido",
+    "correo_solicitante": "solicitante@example.com",
+    "fecha_solicitud": "2026-09-24",
+    "tipo_solicitud_proveedor": "creacion",
+    "nombre_comercial": "Proveedor Ejemplo",
+    "razon_social": "Proveedor Ejemplo S.A.",
+    "nit_identificador_fiscal": "1234567-8",
+    "grupo": "local",
+    "nombre_confirmacion_solicitante": "Nombre Apellido",
+    "confirmacion_solicitante_proveedor": "si"
+  },
+  "archivos": {
+    "doc_juridica_rtu": [
+      {
+        "name": "rtu.pdf",
+        "size": 120000,
+        "type": "application/pdf"
+      }
+    ]
+  }
+}

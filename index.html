@@ -1,0 +1,1397 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSC S.A. | Formularios de creación</title>
+  <style>
+    :root {
+      --brand: #0077ff;
+      --brand-dark: #0077ff;
+      --ink: #263238;
+      --muted: #62707a;
+      --line: #d7e1e8;
+      --panel: #ffffff;
+      --page: #e8f1f7;
+      --soft: #f5f9fc;
+      --shadow: 0 14px 36px rgba(31, 49, 62, 0.12);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--page);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.45;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 30px auto 48px;
+    }
+
+    .hero,
+    .switcher,
+    .form-panel {
+      background: var(--panel);
+      border: 1px solid rgba(94, 129, 148, 0.18);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 42px clamp(22px, 5vw, 92px);
+      text-align: center;
+    }
+
+    .logo {
+      width: 118px;
+      height: auto;
+      display: block;
+      margin: 0 auto 22px;
+    }
+
+    h1 {
+      margin: 0;
+      color: #4b4b4b;
+      font-size: clamp(1.45rem, 2.6vw, 2.1rem);
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .switcher {
+      margin-top: 26px;
+      padding: 18px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .switcher button,
+    .submit-row button {
+      border: 0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0;
+      transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+
+    .switcher button {
+      min-width: 210px;
+      padding: 12px 18px;
+      color: var(--brand-dark);
+      background: #e8f6fc;
+      border: 1px solid #bce4f4;
+    }
+
+    .switcher button[aria-pressed="true"] {
+      color: #ffffff;
+      background: var(--brand-dark);
+      border-color: var(--brand-dark);
+    }
+
+    .switcher button:focus-visible,
+    .submit-row button:focus-visible,
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 3px solid rgba(24, 124, 166, 0.28);
+      outline-offset: 2px;
+    }
+
+    .form-panel {
+      display: none;
+      margin-top: 26px;
+      padding: clamp(18px, 3vw, 30px);
+    }
+
+    .form-panel.active {
+      display: block;
+    }
+
+    .form-heading {
+      display: flex;
+      gap: 16px;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .form-heading h2 {
+      margin: 0;
+      font-size: clamp(1.25rem, 2vw, 1.7rem);
+      color: #2d4f60;
+      letter-spacing: 0;
+    }
+
+    fieldset {
+      margin: 0 0 24px;
+      padding: 0;
+      border: 0;
+    }
+
+    fieldset + fieldset {
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    legend {
+      width: 100%;
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      color: #ffffff;
+      background: var(--brand-dark);
+      font-weight: 700;
+    }
+
+    .subsection-title {
+      margin: 18px 0 12px;
+      color: var(--brand-dark);
+      font-size: 1.03rem;
+      font-weight: 700;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px 18px;
+    }
+
+    .form-grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label,
+    .field-label {
+      display: block;
+      margin-bottom: 6px;
+      color: #37474f;
+      font-weight: 700;
+      font-size: 0.94rem;
+    }
+
+    .required {
+      color: #b54f00;
+      margin-left: 2px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="url"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid #c9d6df;
+      border-radius: 6px;
+      color: var(--ink);
+      background: #ffffff;
+    }
+
+    textarea {
+      min-height: 86px;
+      resize: vertical;
+    }
+
+    input[readonly] {
+      background: #eef4f8;
+      color: #53656f;
+    }
+
+    .choice-grid,
+    .file-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .choice,
+    .file-item,
+    .reference-block {
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid #d5e1e8;
+      border-radius: 8px;
+      background: var(--soft);
+    }
+
+    .choice {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .choice input {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      flex: 0 0 auto;
+      accent-color: var(--brand-dark);
+    }
+
+    .file-item input {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .status-message {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .important-note {
+      margin: 0 0 14px;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 1.5;
+    }
+
+    .important-note strong:first-child {
+      color: var(--brand-dark);
+    }
+
+    .bank-group[hidden],
+    .doc-group[hidden],
+    [data-csc-department-hidden="true"],
+    [data-request-hidden="true"] {
+      display: none;
+    }
+
+    .reference-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .reference-block h4 {
+      margin: 0 0 12px;
+      color: var(--brand-dark);
+      font-size: 1rem;
+    }
+
+    .reference-block .form-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .submit-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .submit-row button {
+      min-height: 46px;
+      padding: 12px 22px;
+      color: #ffffff;
+      background: var(--brand-dark);
+    }
+
+    .submit-row button:hover,
+    .switcher button:hover {
+      transform: translateY(-1px);
+    }
+
+    .status-message {
+      margin: 0;
+      min-height: 22px;
+      text-align: right;
+    }
+
+    .success-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      background: rgba(15, 31, 42, 0.48);
+    }
+
+    .success-modal[hidden] {
+      display: none;
+    }
+
+    .success-box {
+      width: min(100%, 430px);
+      padding: 30px 28px;
+      text-align: center;
+      background: #ffffff;
+      border: 1px solid #d9e2ec;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 18px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      background: #159947;
+      border-radius: 50%;
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .success-box h2 {
+      margin: 0 0 10px;
+      color: var(--brand-dark);
+      font-size: 1.35rem;
+    }
+
+    .success-box p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .success-box button {
+      min-width: 120px;
+      margin-top: 24px;
+      padding: 12px 22px;
+      color: #ffffff;
+      background: var(--brand-dark);
+      border: 0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .success-box button:focus-visible {
+      outline: 3px solid rgba(24, 124, 166, 0.28);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 860px) {
+      .form-grid,
+      .form-grid.three,
+      .choice-grid,
+      .file-grid,
+      .reference-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-heading,
+      .submit-row {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .submit-row button,
+      .switcher button {
+        width: 100%;
+      }
+
+      .status-message {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .page {
+        width: min(100% - 20px, 1120px);
+        margin-top: 16px;
+      }
+
+      .hero {
+        padding: 28px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <img class="logo" src="assets/csc-logo.png" alt="CSC S.A.">
+      <h1 id="page-title">Formularios para alta de Clientes y Proveedores</h1>
+    </section>
+
+    <nav class="switcher" aria-label="Selector de formulario">
+      <button type="button" data-target="form-proveedor" aria-pressed="true">Formulario alta de Proveedores</button>
+      <button type="button" data-target="form-cliente" aria-pressed="false">Formulario alta de Clientes</button>
+      <!-- <button type="button" data-target="form-caja-chica" aria-pressed="false">Proveedor de caja chica</button> -->
+
+    </nav>
+
+    <form id="form-proveedor" class="form-panel active" data-form-type="proveedor">
+      <div class="form-heading">
+        <h2>Formulario para alta de proveedores</h2>
+      </div>
+
+      <fieldset>
+        <legend>Datos de solicitud</legend>
+        <div class="form-grid">
+          <div class="field">
+            <label for="proveedor_empresa">Empresa solicitante <span class="required">*</span></label>
+            <select id="proveedor_empresa" name="empresa_solicitante" required>
+              <option value="" selected></option>
+              <option value="REPIMEX S.A.">REPIMEX S.A.</option>
+              <option value="GUATEMAR S.A.">GUATEMAR S.A.</option>
+              <option value="IMC S.A.">IMC S.A.</option>
+              <option value="CENTRO DE SERVICIOS COMPARTIDOS S.A.">CENTRO DE SERVICIOS COMPARTIDOS S.A.</option>
+              <option value="CENTRANS INTERNACIONAL S.A.">CENTRANS INTERNACIONAL S.A.</option>
+              <option value="EMAPAC S.A.">EMAPAC S.A.</option>
+              <option value="TALPORT S.A.">TALPORT S.A.</option>
+              <option value="PROMARES S.A.">PROMARES S.A.</option>
+            </select>
+          </div>
+          <div class="field" data-csc-department-field>
+            <label for="proveedor_departamento">Departamento solicitante <span class="required">*</span></label>
+            <select id="proveedor_departamento" name="departamento_solicitante" required disabled data-csc-department>
+              <option value="" selected>Seleccione departamento</option>
+              <option value="ABASTECIMIENTO">Abastecimiento</option>
+              <option value="IT">IT</option>
+              <option value="FINANZAS">Finanzas</option>
+              <option value="AUDITORIA INTERNA">Auditoría Interna</option>
+              <option value="TALENTO HUMANO">Talento Humano</option>
+              <option value="LEGAL">Legal</option>
+              <option value="CASS">CASS</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="proveedor_solicitado_por">Solicitado por <span class="required">*</span></label>
+            <input id="proveedor_solicitado_por" name="solicitado_por" type="text" required>
+          </div>
+          <div class="field">
+            <label for="proveedor_correo_solicitante">Correo del solicitante <span class="required">*</span></label>
+            <input id="proveedor_correo_solicitante" name="correo_solicitante" type="email" required>
+          </div>
+          <div class="field">
+            <label for="proveedor_fecha">Fecha de la solicitud <span class="required">*</span></label>
+            <input id="proveedor_fecha" name="fecha_solicitud" type="date" readonly required>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>A. Tipo de solicitud</legend>
+        <div class="choice-grid">
+          <label class="choice"><input type="radio" name="tipo_solicitud_proveedor" value="creacion" required> Creación de proveedor</label>
+          <label class="choice"><input type="radio" name="tipo_solicitud_proveedor" value="modificacion"> Modificación de información existente</label>
+          <label class="choice"><input type="radio" name="tipo_solicitud_proveedor" value="inactivacion"> Inactivación de proveedor</label>
+        </div>
+      </fieldset>
+
+      <fieldset data-after-request-section data-provider-general-section>
+        <legend>B. Datos generales del proveedor</legend>
+        <p class="important-note" data-modification-only hidden>
+          <strong>Importante: Debido a que todos los campos son obligatorios, en todos los campos a los que no aplique una modificación, escriba textualmente N/A.</strong>
+        </p>
+        <div class="form-grid">
+          <div class="field">
+            <label for="proveedor_nombre_comercial">Nombre comercial <span class="required">*</span></label>
+            <input id="proveedor_nombre_comercial" name="nombre_comercial" type="text" required>
+          </div>
+          <div class="field">
+            <label for="proveedor_razon_social">Razón social <span class="required">*</span></label>
+            <input id="proveedor_razon_social" name="razon_social" type="text" required>
+          </div>
+          <div class="field">
+            <label for="proveedor_nit">NIT / Identificador fiscal <span class="required">*</span></label>
+            <input id="proveedor_nit" name="nit_identificador_fiscal" type="text" required>
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <span class="field-label">Tipo de persona <span class="required">*</span></span>
+            <label class="choice"><input type="radio" name="tipo_persona_proveedor" value="individual" data-person-type required> Individual</label>
+            <label class="choice"><input type="radio" name="tipo_persona_proveedor" value="juridica" data-person-type> Jurídica</label>
+          </div>
+          <div class="field full" data-inactivation-excluded>
+            <label for="proveedor_direccion">Dirección fiscal <span class="required">*</span></label>
+            <textarea id="proveedor_direccion" name="direccion_fiscal" required></textarea>
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <label for="proveedor_contacto">Nombre de contacto <span class="required">*</span></label>
+            <input id="proveedor_contacto" name="nombre_contacto" type="text" required>
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <label for="proveedor_puesto">Puesto del contacto <span class="required">*</span></label>
+            <input id="proveedor_puesto" name="puesto_contacto" type="text" required>
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <label for="proveedor_telefono">Teléfono del contacto <span class="required">*</span></label>
+            <input id="proveedor_telefono" name="telefono_contacto" type="tel" required>
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <label for="proveedor_email">Correo electrónico <span class="required">*</span></label>
+            <input id="proveedor_email" name="correo_electronico" type="email" required>
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <label for="proveedor_web">Página web (si aplica)</label>
+            <input id="proveedor_web" name="pagina_web" type="url">
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <label for="proveedor_grupo">Grupo <span class="required">*</span></label>
+            <select id="proveedor_grupo" name="grupo" required data-group-select>
+              <option value="">Seleccione grupo</option>
+              <option value="local">Local</option>
+              <option value="relacionado">Relacionado</option>
+              <option value="exterior">Exterior</option>
+              <option value="empleado">Empleado</option>
+            </select>
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <span class="field-label">Moneda <span class="required">*</span></span>
+            <label class="choice"><input type="radio" name="moneda_proveedor" value="GTQ" required> GTQ</label>
+            <label class="choice"><input type="radio" name="moneda_proveedor" value="USD"> USD</label>
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <label for="proveedor_credito">Días de crédito <span class="required">*</span></label>
+            <select id="proveedor_credito" name="dias_credito" required>
+              <option value="">Seleccione plazo</option>
+              <option value="Contado">Contado</option>
+              <option value="15 días">15 días</option>
+              <option value="30 días">30 días</option>
+            </select>
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <label for="proveedor_actividad">Actividad económica / Giro del negocio <span class="required">*</span></label>
+            <input id="proveedor_actividad" name="actividad_economica" type="text" required>
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <label for="proveedor_inicio">Fecha de inicio de relación comercial <span class="required">*</span></label>
+            <input id="proveedor_inicio" name="fecha_inicio_relacion" type="date" required>
+          </div>
+          <div class="field full" data-inactivation-only hidden>
+            <label for="proveedor_justificacion_inactivacion">Justificación <span class="required">*</span></label>
+            <textarea id="proveedor_justificacion_inactivacion" name="justificacion_inactivacion" required></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset data-after-request-section>
+        <legend>C. Información tributaria</legend>
+        <div class="choice-grid">
+          <div><span class="field-label">ISR sobre utilidades <span class="required">*</span></span><label class="choice"><input type="radio" name="proveedor_isr_utilidades" value="si" required> Sí</label><label class="choice"><input type="radio" name="proveedor_isr_utilidades" value="no"> No</label></div>
+          <div><span class="field-label">ISR opcional simplificado <span class="required">*</span></span><label class="choice"><input type="radio" name="proveedor_isr_simplificado" value="si" required> Sí</label><label class="choice"><input type="radio" name="proveedor_isr_simplificado" value="no"> No</label></div>
+          <div><span class="field-label">Pequeño contribuyente <span class="required">*</span></span><label class="choice"><input type="radio" name="proveedor_pequeno_contribuyente" value="si" required> Sí</label><label class="choice"><input type="radio" name="proveedor_pequeno_contribuyente" value="no"> No</label></div>
+          <div><span class="field-label">Exento <span class="required">*</span></span><label class="choice"><input type="radio" name="proveedor_exento" value="si" required> Sí</label><label class="choice"><input type="radio" name="proveedor_exento" value="no"> No</label></div>
+          <div><span class="field-label">¿Es agente retenedor? <span class="required">*</span></span><label class="choice"><input type="radio" name="proveedor_agente_retenedor" value="si" required> Sí</label><label class="choice"><input type="radio" name="proveedor_agente_retenedor" value="no"> No</label></div>
+          <div><span class="field-label">¿Aplica retención de ISR local? <span class="required">*</span></span><label class="choice"><input type="radio" name="proveedor_retencion_isr_local" value="si" required> Sí</label><label class="choice"><input type="radio" name="proveedor_retencion_isr_local" value="no"> No</label></div>
+          <div><span class="field-label">¿Aplica retención de ISR del exterior? <span class="required">*</span></span><label class="choice"><input type="radio" name="proveedor_retencion_isr_exterior" value="si" required> Sí</label><label class="choice"><input type="radio" name="proveedor_retencion_isr_exterior" value="no"> No</label></div>
+          <div><span class="field-label">¿Aplica retención de IVA? <span class="required">*</span></span><label class="choice"><input type="radio" name="proveedor_retencion_iva" value="si" required> Sí</label><label class="choice"><input type="radio" name="proveedor_retencion_iva" value="no"> No</label></div>
+        </div>
+      </fieldset>
+
+      <fieldset data-after-request-section>
+        <legend>D. Datos bancarios</legend>
+        <div class="choice-grid">
+          <div>
+            <span class="field-label">Tipo de proveedor <span class="required">*</span></span>
+            <label class="choice"><input type="radio" name="tipo_proveedor_bancario" value="national" data-bank-type required> Nacional</label>
+            <label class="choice"><input type="radio" name="tipo_proveedor_bancario" value="foreign" data-bank-type> Extranjero</label>
+          </div>
+        </div>
+        <div class="bank-group bank-national" data-bank-group="national">
+          <h3 class="subsection-title">Proveedores nacionales</h3>
+          <div class="form-grid">
+            <div class="field"><label for="proveedor_banco_local">Nombre del banco <span class="required">*</span></label><input id="proveedor_banco_local" name="banco_local" type="text" required></div>
+            <div class="field"><label for="proveedor_cuenta_local">Número de cuenta <span class="required">*</span></label><input id="proveedor_cuenta_local" name="cuenta_local" type="text" required></div>
+            <div class="field"><span class="field-label">Tipo de cuenta <span class="required">*</span></span><label class="choice"><input type="radio" name="tipo_cuenta_local_proveedor" value="monetaria" required> Monetaria</label><label class="choice"><input type="radio" name="tipo_cuenta_local_proveedor" value="ahorro"> Ahorro</label></div>
+            <div class="field"><span class="field-label">Moneda <span class="required">*</span></span><label class="choice"><input type="radio" name="moneda_cuenta_local_proveedor" value="GTQ" required> GTQ</label><label class="choice"><input type="radio" name="moneda_cuenta_local_proveedor" value="USD"> USD</label></div>
+            <div class="field"><label for="proveedor_nombre_cuenta_local">Nombre de la cuenta <span class="required">*</span></label><input id="proveedor_nombre_cuenta_local" name="nombre_cuenta_local" type="text" required></div>
+            <div class="field"><label for="proveedor_notificacion_local">Correo notificación de pago <span class="required">*</span></label><input id="proveedor_notificacion_local" name="correo_notificacion_local" type="email" required></div>
+          </div>
+        </div>
+        <div class="bank-group bank-foreign" data-bank-group="foreign">
+          <h3 class="subsection-title">Proveedores extranjeros</h3>
+          <div class="form-grid">
+            <div class="field"><label for="proveedor_banco_ext">Nombre del banco <span class="required">*</span></label><input id="proveedor_banco_ext" name="banco_extranjero" type="text" required></div>
+            <div class="field"><label for="proveedor_pais_banco">País del banco <span class="required">*</span></label><input id="proveedor_pais_banco" name="pais_banco" type="text" required></div>
+            <div class="field full"><label for="proveedor_direccion_banco">Dirección del banco <span class="required">*</span></label><textarea id="proveedor_direccion_banco" name="direccion_banco" required></textarea></div>
+            <div class="field"><label for="proveedor_cuenta_ext">Número de cuenta <span class="required">*</span></label><input id="proveedor_cuenta_ext" name="cuenta_extranjera" type="text" required></div>
+            <div class="field"><label for="proveedor_swift">SWIFT / BIC <span class="required">*</span></label><input id="proveedor_swift" name="swift_bic" type="text" required></div>
+            <div class="field"><label for="proveedor_tipo_cuenta_ext">Tipo de cuenta <span class="required">*</span></label><input id="proveedor_tipo_cuenta_ext" name="tipo_cuenta_extranjera" type="text" required></div>
+            <div class="field"><span class="field-label">Moneda <span class="required">*</span></span><label class="choice"><input type="radio" name="moneda_cuenta_ext_proveedor" value="USD" required> USD</label><label class="choice"><input type="radio" name="moneda_cuenta_ext_proveedor" value="otra"> Otra</label></div>
+            <div class="field"><label for="proveedor_moneda_otra">Otra moneda</label><input id="proveedor_moneda_otra" name="moneda_otra" type="text"></div>
+            <div class="field"><label for="proveedor_nombre_cuenta_ext">Nombre de la cuenta <span class="required">*</span></label><input id="proveedor_nombre_cuenta_ext" name="nombre_cuenta_extranjera" type="text" required></div>
+            <div class="field"><label for="proveedor_notificacion_ext">Correo notificación de pago <span class="required">*</span></label><input id="proveedor_notificacion_ext" name="correo_notificacion_extranjera" type="email" required></div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset data-after-request-section>
+        <legend>E. Documentación requerida</legend>
+
+        <div class="doc-group" data-doc-group="juridica" hidden>
+          <h3 class="subsection-title">Persona jurídica</h3>
+          <div class="file-grid">
+            <label class="file-item">RTU actualizado / Identificador fiscal (Requerido) <span class="required">*</span><input name="proveedor_doc_juridica_rtu" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Patente de Comercio (Locales y del Exterior) (Requerido)<span class="required">*</span><input name="proveedor_doc_juridica_patente" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Identificación del representante legal o mandatario (Requerido) <span class="required">*</span><input name="proveedor_doc_juridica_identificacion" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Nombramiento vigente del representante legal o mandatario (Requerido)<span class="required">*</span><input name="proveedor_doc_juridica_nombramiento" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Certificación bancaria (Requerido) <span class="required">*</span><input name="proveedor_doc_juridica_bancaria" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Formulario de debida diligencia<input name="proveedor_doc_juridica_diligencia" type="file" accept=".pdf,.jpg,.jpeg,.png"></label>
+            <label class="file-item">Documentación de beneficiario final<input name="proveedor_doc_juridica_beneficiario" type="file" accept=".pdf,.jpg,.jpeg,.png"></label>
+          </div>
+        </div>
+
+        <div class="doc-group" data-doc-group="individual" hidden>
+          <h3 class="subsection-title">Persona individual</h3>
+          <div class="file-grid">
+            <label class="file-item">RTU actualizado / Identificador fiscal (Requerido)<span class="required">*</span><input name="proveedor_doc_individual_rtu" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">DPI o Pasaporte (Requerido)<span class="required">*</span><input name="proveedor_doc_individual_dpi" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Patente de Comercio<input name="proveedor_doc_individual_patente" type="file" accept=".pdf,.jpg,.jpeg,.png"></label>
+            <label class="file-item">Certificación bancaria (Requerido) <span class="required">*</span><input name="proveedor_doc_individual_bancaria" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Formulario de debida diligencia<input name="proveedor_doc_individual_diligencia" type="file" accept=".pdf,.jpg,.jpeg,.png"></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset data-after-request-section>
+        <legend>F. Referencias comerciales</legend>
+        <div class="reference-grid">
+          <section class="reference-block">
+            <h4>Referencia #1 Obligatorio</h4>
+            <div class="form-grid">
+              <div class="field"><label for="proveedor_ref1_compania">Compañía <span class="required">*</span></label><input id="proveedor_ref1_compania" name="ref1_compania" type="text" required></div>
+              <div class="field"><label for="proveedor_ref1_contacto">Contacto <span class="required">*</span></label><input id="proveedor_ref1_contacto" name="ref1_contacto" type="text" required></div>
+              <div class="field"><label for="proveedor_ref1_telefono">Teléfono <span class="required">*</span></label><input id="proveedor_ref1_telefono" name="ref1_telefono" type="tel" required></div>
+              <div class="field"><label for="proveedor_ref1_correo">Correo electrónico <span class="required">*</span></label><input id="proveedor_ref1_correo" name="ref1_correo" type="email" required></div>
+            </div>
+          </section>
+          <section class="reference-block">
+            <h4>Referencia #2 Obligatorio</h4>
+            <div class="form-grid">
+              <div class="field"><label for="proveedor_ref2_compania">Compañía <span class="required">*</span></label><input id="proveedor_ref2_compania" name="ref2_compania" type="text" required></div>
+              <div class="field"><label for="proveedor_ref2_contacto">Contacto <span class="required">*</span></label><input id="proveedor_ref2_contacto" name="ref2_contacto" type="text" required></div>
+              <div class="field"><label for="proveedor_ref2_telefono">Teléfono <span class="required">*</span></label><input id="proveedor_ref2_telefono" name="ref2_telefono" type="tel" required></div>
+              <div class="field"><label for="proveedor_ref2_correo">Correo electrónico <span class="required">*</span></label><input id="proveedor_ref2_correo" name="ref2_correo" type="email" required></div>
+            </div>
+          </section>
+          <section class="reference-block">
+            <h4>Referencia #3</h4>
+            <div class="form-grid">
+              <div class="field"><label for="proveedor_ref3_compania">Compañía</label><input id="proveedor_ref3_compania" name="ref3_compania" type="text"></div>
+              <div class="field"><label for="proveedor_ref3_contacto">Contacto</label><input id="proveedor_ref3_contacto" name="ref3_contacto" type="text"></div>
+              <div class="field"><label for="proveedor_ref3_telefono">Teléfono</label><input id="proveedor_ref3_telefono" name="ref3_telefono" type="tel"></div>
+              <div class="field"><label for="proveedor_ref3_correo">Correo electrónico</label><input id="proveedor_ref3_correo" name="ref3_correo" type="email"></div>
+            </div>
+          </section>
+        </div>
+      </fieldset>
+
+      <fieldset data-after-request-section>
+        <legend>Nombre y confirmación del solicitante</legend>
+        <div class="form-grid">
+          <div class="field"><label for="proveedor_nombre_confirmacion_solicitante">Nombre del solicitante <span class="required">*</span></label><input id="proveedor_nombre_confirmacion_solicitante" name="nombre_confirmacion_solicitante" type="text" required></div>
+          <div class="field full">
+            <label class="choice"><input type="checkbox" name="confirmacion_solicitante_proveedor" value="si" required> Al confirmar acepto que toda la información proporcionada es correcta. <span class="required">*</span></label>
+          </div>
+        </div>
+      </fieldset>
+
+     <!-- <fieldset data-after-request-section>
+        <legend>Uso exclusivo para el equipo de Datos Maestros</legend>
+        <div class="form-grid">
+          <div class="field"><label for="proveedor_codigo">Código del proveedor</label><input id="proveedor_codigo" name="codigo_proveedor" type="text"></div>
+          <div class="field"><label for="proveedor_observaciones">Observaciones</label><input id="proveedor_observaciones" name="observaciones_datos_maestros" type="text"></div>
+        </div>
+      </fieldset> -->
+
+      <div class="submit-row">
+        <p class="status-message" role="status" aria-live="polite"></p>
+        <button type="submit">Enviar formulario</button>
+      </div>
+    </form>
+
+    <!-- Formulario temporalmente oculto.
+    <form id="form-caja-chica" class="form-panel" data-form-type="caja_chica">
+      <div class="form-heading">
+        <h2>Formulario creación de proveedor de caja chica</h2>
+      </div>
+
+      <input type="hidden" name="tipo_solicitud_caja_chica" value="creacion_caja_chica">
+
+      <fieldset>
+        <legend>Datos de solicitud</legend>
+        <div class="form-grid">
+          <div class="field">
+            <label for="caja_empresa">Empresa solicitante <span class="required">*</span></label>
+            <select id="caja_empresa" name="empresa_solicitante" required>
+              <option value="" selected></option>
+              <option value="REPIMEX S.A.">REPIMEX S.A.</option>
+              <option value="GUATEMAR S.A.">GUATEMAR S.A.</option>
+              <option value="IMC S.A.">IMC S.A.</option>
+              <option value="CENTRO DE SERVICIOS COMPARTIDOS S.A.">CENTRO DE SERVICIOS COMPARTIDOS S.A.</option>
+              <option value="CENTRANS INTERNACIONAL S.A.">CENTRANS INTERNACIONAL S.A.</option>
+            </select>
+          </div>
+          <div class="field" data-csc-department-field>
+            <label for="caja_departamento">Departamento solicitante <span class="required">*</span></label>
+            <select id="caja_departamento" name="departamento_solicitante" required disabled data-csc-department>
+              <option value="" selected>Seleccione departamento</option>
+              <option value="ABASTECIMIENTO">Abastecimiento</option>
+              <option value="IT">IT</option>
+              <option value="FINANZAS">Finanzas</option>
+              <option value="AUDITORIA INTERNA">Auditoría Interna</option>
+              <option value="TALENTO HUMANO">Talento Humano</option>
+              <option value="LEGAL">Legal</option>
+              <option value="CASS">CASS</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="caja_solicitado_por">Solicitado por <span class="required">*</span></label>
+            <input id="caja_solicitado_por" name="solicitado_por" type="text" required>
+          </div>
+          <div class="field">
+            <label for="caja_correo_solicitante">Correo del solicitante <span class="required">*</span></label>
+            <input id="caja_correo_solicitante" name="correo_solicitante" type="email" required>
+          </div>
+          <div class="field">
+            <label for="caja_fecha">Fecha de la solicitud <span class="required">*</span></label>
+            <input id="caja_fecha" name="fecha_solicitud" type="date" readonly required>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>A. Datos del proveedor de caja chica</legend>
+        <div class="form-grid">
+          <div class="field">
+            <label for="caja_nombre_comercial">Nombre comercial <span class="required">*</span></label>
+            <input id="caja_nombre_comercial" name="nombre_comercial" type="text" required>
+          </div>
+          <div class="field">
+            <label for="caja_razon_social">Razón social <span class="required">*</span></label>
+            <input id="caja_razon_social" name="razon_social" type="text" required>
+          </div>
+          <div class="field">
+            <label for="caja_nit">NIT / Identificador fiscal <span class="required">*</span></label>
+            <input id="caja_nit" name="nit_identificador_fiscal" type="text" required>
+          </div>
+          <div class="field">
+            <label for="caja_grupo">Grupo <span class="required">*</span></label>
+            <select id="caja_grupo" name="grupo" required>
+              <option value="">Seleccione grupo</option>
+              <option value="local">Local</option>
+              <option value="relacionado">Relacionado</option>
+              <option value="exterior">Exterior</option>
+              <option value="empleado">Empleado</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Nombre y confirmación del solicitante</legend>
+        <div class="form-grid">
+          <div class="field">
+            <label for="caja_nombre_confirmacion_solicitante">Nombre del solicitante <span class="required">*</span></label>
+            <input id="caja_nombre_confirmacion_solicitante" name="nombre_confirmacion_solicitante" type="text" required>
+          </div>
+          <div class="field full">
+            <label class="choice"><input type="checkbox" name="confirmacion_solicitante_caja_chica" value="si" required> Al confirmar acepto que toda la información proporcionada es correcta. <span class="required">*</span></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="submit-row">
+        <p class="status-message" role="status" aria-live="polite"></p>
+        <button type="submit">Enviar formulario</button>
+      </div>
+    </form>
+    -->
+
+    <form id="form-cliente" class="form-panel" data-form-type="cliente">
+      <div class="form-heading">
+        <h2>Formulario creación de cliente</h2>
+      </div>
+
+      <fieldset>
+        <legend>Datos de solicitud</legend>
+        <div class="form-grid">
+          <div class="field">
+            <label for="cliente_empresa">Empresa solicitante <span class="required">*</span></label>
+            <select id="cliente_empresa" name="empresa_solicitante" required>
+              <option value="" selected></option>
+              <option value="REPIMEX S.A.">REPIMEX S.A.</option>
+              <option value="GUATEMAR S.A.">GUATEMAR S.A.</option>
+              <option value="IMC S.A.">IMC S.A.</option>
+              <option value="CENTRO DE SERVICIOS COMPARTIDOS S.A.">CENTRO DE SERVICIOS COMPARTIDOS S.A.</option>
+              <option value="CENTRANS INTERNACIONAL S.A.">CENTRANS INTERNACIONAL S.A.</option>
+              <option value="EMAPAC S.A.">EMAPAC S.A.</option>
+              <option value="TALPORT S.A.">TALPORT S.A.</option>
+              <option value="PROMARES S.A.">PROMARES S.A.</option>
+            </select>
+          </div>
+          <div class="field" data-csc-department-field>
+            <label for="cliente_departamento">Departamento solicitante <span class="required">*</span></label>
+            <select id="cliente_departamento" name="departamento_solicitante" required disabled data-csc-department>
+              <option value="" selected>Seleccione departamento</option>
+              <option value="ABASTECIMIENTO">Abastecimiento</option>
+              <option value="IT">IT</option>
+              <option value="FINANZAS">Finanzas</option>
+              <option value="AUDITORIA INTERNA">Auditoría Interna</option>
+              <option value="TALENTO HUMANO">Talento Humano</option>
+              <option value="LEGAL">Legal</option>
+              <option value="CASS">CASS</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="cliente_solicitado_por">Solicitado por <span class="required">*</span></label>
+            <input id="cliente_solicitado_por" name="solicitado_por" type="text" required>
+          </div>
+          <div class="field">
+            <label for="cliente_correo_solicitante">Correo del solicitante <span class="required">*</span></label>
+            <input id="cliente_correo_solicitante" name="correo_solicitante" type="email" required>
+          </div>
+          <div class="field">
+            <label for="cliente_fecha">Fecha de la solicitud <span class="required">*</span></label>
+            <input id="cliente_fecha" name="fecha_solicitud" type="date" readonly required>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>A. Tipo de solicitud</legend>
+        <div class="choice-grid">
+          <label class="choice"><input type="radio" name="tipo_solicitud_cliente" value="creacion" required> Creación de cliente</label>
+          <label class="choice"><input type="radio" name="tipo_solicitud_cliente" value="modificacion"> Modificación de información existente</label>
+          <label class="choice"><input type="radio" name="tipo_solicitud_cliente" value="inactivacion"> Inactivación de cliente</label>
+        </div>
+      </fieldset>
+
+      <fieldset data-after-request-section data-client-general-section>
+        <legend>B. Datos generales del cliente</legend>
+        <p class="important-note" data-modification-only hidden>
+          <strong>Importante: Debido a que todos los campos son obligatorios, en todos los campos a los que no aplique una modificación, escriba textualmente N/A.</strong>
+        </p>
+        <div class="form-grid">
+          <div class="field"><label for="cliente_nombre_comercial">Nombre comercial <span class="required">*</span></label><input id="cliente_nombre_comercial" name="nombre_comercial" type="text" required></div>
+          <div class="field"><label for="cliente_razon_social">Razón social <span class="required">*</span></label><input id="cliente_razon_social" name="razon_social" type="text" required></div>
+          <div class="field"><label for="cliente_nit">NIT / Identificador fiscal <span class="required">*</span></label><input id="cliente_nit" name="nit_identificador_fiscal" type="text" required></div>
+          <div class="field" data-inactivation-excluded>
+            <span class="field-label">Tipo de persona <span class="required">*</span></span>
+            <label class="choice"><input type="radio" name="tipo_persona_cliente" value="individual" data-person-type required> Individual</label>
+            <label class="choice"><input type="radio" name="tipo_persona_cliente" value="juridica" data-person-type> Jurídica</label>
+          </div>
+          <div class="field full" data-inactivation-excluded><label for="cliente_direccion">Dirección fiscal <span class="required">*</span></label><textarea id="cliente_direccion" name="direccion_fiscal" required></textarea></div>
+          <div class="field" data-inactivation-excluded><label for="cliente_contacto_comercial">Nombre de contacto comercial <span class="required">*</span></label><input id="cliente_contacto_comercial" name="nombre_contacto_comercial" type="text" required></div>
+          <div class="field" data-inactivation-excluded><label for="cliente_puesto_comercial">Puesto del contacto comercial <span class="required">*</span></label><input id="cliente_puesto_comercial" name="puesto_contacto_comercial" type="text" required></div>
+          <div class="field" data-inactivation-excluded><label for="cliente_telefono_comercial">Teléfono del contacto comercial <span class="required">*</span></label><input id="cliente_telefono_comercial" name="telefono_contacto_comercial" type="tel" required></div>
+          <div class="field" data-inactivation-excluded><label for="cliente_email_comercial">Correo electrónico del contacto comercial <span class="required">*</span></label><input id="cliente_email_comercial" name="correo_contacto_comercial" type="email" required></div>
+          <div class="field" data-inactivation-excluded><label for="cliente_contacto_conta">Nombre de contacto de contabilidad <span class="required">*</span></label><input id="cliente_contacto_conta" name="nombre_contacto_contabilidad" type="text" required></div>
+          <div class="field" data-inactivation-excluded><label for="cliente_puesto_conta">Puesto del contacto de contabilidad <span class="required">*</span></label><input id="cliente_puesto_conta" name="puesto_contacto_contabilidad" type="text" required></div>
+          <div class="field" data-inactivation-excluded><label for="cliente_telefono_conta">Teléfono del contacto de contabilidad <span class="required">*</span></label><input id="cliente_telefono_conta" name="telefono_contacto_contabilidad" type="tel" required></div>
+          <div class="field" data-inactivation-excluded><label for="cliente_email_conta">Correo electrónico del contacto de contabilidad <span class="required">*</span></label><input id="cliente_email_conta" name="correo_contacto_contabilidad" type="email" required></div>
+          <div class="field" data-inactivation-excluded><label for="cliente_web">Página web</label><input id="cliente_web" name="pagina_web" type="url"></div>
+          <div class="field" data-inactivation-excluded>
+            <label for="cliente_grupo">Grupo <span class="required">*</span></label>
+            <select id="cliente_grupo" name="grupo" required data-group-select>
+              <option value="">Seleccione grupo</option>
+              <option value="local">Local</option>
+              <option value="relacionado">Relacionado</option>
+              <option value="exterior">Exterior</option>
+              <option value="empleado">Empleado</option>
+            </select>
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <span class="field-label">Moneda <span class="required">*</span></span>
+            <label class="choice"><input type="radio" name="moneda_cliente" value="GTQ" required> GTQ</label>
+            <label class="choice"><input type="radio" name="moneda_cliente" value="USD"> USD</label>
+          </div>
+          <div class="field" data-inactivation-excluded>
+            <label for="cliente_credito">Días de crédito <span class="required">*</span></label>
+            <select id="cliente_credito" name="dias_credito" required>
+              <option value="">Seleccione plazo</option>
+              <option value="Contado">Contado</option>
+              <option value="15 días">15 días</option>
+              <option value="30 días">30 días</option>
+            </select>
+          </div>
+          <div class="field" data-inactivation-excluded><label for="cliente_actividad">Actividad económica / Giro del negocio <span class="required">*</span></label><input id="cliente_actividad" name="actividad_economica" type="text" required></div>
+          <div class="field" data-inactivation-excluded><label for="cliente_inicio">Fecha de inicio de relación comercial <span class="required">*</span></label><input id="cliente_inicio" name="fecha_inicio_relacion" type="date" required></div>
+          <div class="field full" data-inactivation-only hidden>
+            <label for="cliente_justificacion_inactivacion">Justificación <span class="required">*</span></label>
+            <textarea id="cliente_justificacion_inactivacion" name="justificacion_inactivacion" required></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset data-after-request-section>
+        <legend>C. Información tributaria</legend>
+        <div class="choice-grid">
+          <div><span class="field-label">ISR sobre utilidades <span class="required">*</span></span><label class="choice"><input type="radio" name="cliente_isr_utilidades" value="si" required> Sí</label><label class="choice"><input type="radio" name="cliente_isr_utilidades" value="no"> No</label></div>
+          <div><span class="field-label">ISR opcional simplificado <span class="required">*</span></span><label class="choice"><input type="radio" name="cliente_isr_simplificado" value="si" required> Sí</label><label class="choice"><input type="radio" name="cliente_isr_simplificado" value="no"> No</label></div>
+          <div><span class="field-label">Pequeño contribuyente <span class="required">*</span></span><label class="choice"><input type="radio" name="cliente_pequeno_contribuyente" value="si" required> Sí</label><label class="choice"><input type="radio" name="cliente_pequeno_contribuyente" value="no"> No</label></div>
+          <div><span class="field-label">Exento <span class="required">*</span></span><label class="choice"><input type="radio" name="cliente_exento" value="si" required> Sí</label><label class="choice"><input type="radio" name="cliente_exento" value="no"> No</label></div>
+        </div>
+      </fieldset>
+
+      <fieldset data-after-request-section>
+        <legend>D. Datos bancarios</legend>
+        <div class="choice-grid">
+          <div>
+            <span class="field-label">Tipo de cliente <span class="required">*</span></span>
+            <label class="choice"><input type="radio" name="tipo_cliente_bancario" value="national" data-bank-type required> Nacional</label>
+            <label class="choice"><input type="radio" name="tipo_cliente_bancario" value="foreign" data-bank-type> Extranjero</label>
+          </div>
+        </div>
+        <div class="bank-group bank-national" data-bank-group="national">
+          <h3 class="subsection-title">Clientes nacionales</h3>
+          <div class="form-grid">
+            <div class="field"><label for="cliente_banco_local">Nombre del banco</label><input id="cliente_banco_local" name="banco_local" type="text"></div>
+            <div class="field"><label for="cliente_cuenta_local">Número de cuenta</label><input id="cliente_cuenta_local" name="cuenta_local" type="text"></div>
+            <div class="field"><span class="field-label">Tipo de cuenta</span><label class="choice"><input type="radio" name="tipo_cuenta_local_cliente" value="monetaria"> Monetaria</label><label class="choice"><input type="radio" name="tipo_cuenta_local_cliente" value="ahorro"> Ahorro</label></div>
+            <div class="field"><span class="field-label">Moneda</span><label class="choice"><input type="radio" name="moneda_cuenta_local_cliente" value="GTQ"> GTQ</label><label class="choice"><input type="radio" name="moneda_cuenta_local_cliente" value="USD"> USD</label></div>
+            <div class="field"><label for="cliente_nombre_cuenta_local">Nombre de la cuenta</label><input id="cliente_nombre_cuenta_local" name="nombre_cuenta_local" type="text"></div>
+            <div class="field"><label for="cliente_notificacion_local">Correo notificación de pago</label><input id="cliente_notificacion_local" name="correo_notificacion_local" type="email"></div>
+          </div>
+        </div>
+        <div class="bank-group bank-foreign" data-bank-group="foreign">
+          <h3 class="subsection-title">Clientes extranjeros</h3>
+          <div class="form-grid">
+            <div class="field"><label for="cliente_banco_ext">Nombre del banco</label><input id="cliente_banco_ext" name="banco_extranjero" type="text"></div>
+            <div class="field"><label for="cliente_pais_banco">País del banco</label><input id="cliente_pais_banco" name="pais_banco" type="text"></div>
+            <div class="field full"><label for="cliente_direccion_banco">Dirección del banco</label><textarea id="cliente_direccion_banco" name="direccion_banco"></textarea></div>
+            <div class="field"><label for="cliente_cuenta_ext">Número de cuenta</label><input id="cliente_cuenta_ext" name="cuenta_extranjera" type="text"></div>
+            <div class="field"><label for="cliente_swift">SWIFT / BIC</label><input id="cliente_swift" name="swift_bic" type="text"></div>
+            <div class="field"><label for="cliente_tipo_cuenta_ext">Tipo de cuenta</label><input id="cliente_tipo_cuenta_ext" name="tipo_cuenta_extranjera" type="text"></div>
+            <div class="field"><span class="field-label">Moneda</span><label class="choice"><input type="radio" name="moneda_cuenta_ext_cliente" value="USD"> USD</label><label class="choice"><input type="radio" name="moneda_cuenta_ext_cliente" value="otra"> Otra</label></div>
+            <div class="field"><label for="cliente_moneda_otra">Otra moneda</label><input id="cliente_moneda_otra" name="moneda_otra" type="text"></div>
+            <div class="field"><label for="cliente_nombre_cuenta_ext">Nombre de la cuenta</label><input id="cliente_nombre_cuenta_ext" name="nombre_cuenta_extranjera" type="text"></div>
+            <div class="field"><label for="cliente_notificacion_ext">Correo notificación de pago</label><input id="cliente_notificacion_ext" name="correo_notificacion_extranjera" type="email"></div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset data-after-request-section>
+        <legend>E. Documentación requerida</legend>
+        <div class="doc-group" data-doc-group="juridica">
+          <h3 class="subsection-title">Persona jurídica</h3>
+          <div class="file-grid">
+            <label class="file-item">RTU actualizado / Identificador fiscal <span class="required">*</span><input name="cliente_doc_juridica_rtu" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Patente de comercio <span class="required">*</span><input name="cliente_doc_juridica_patente" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Identificación del representante legal o mandatario <span class="required">*</span><input name="cliente_doc_juridica_identificacion" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Nombramiento vigente del representante legal o mandatario <span class="required">*</span><input name="cliente_doc_juridica_nombramiento" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Certificación bancaria <span class="required">*</span><input name="cliente_doc_juridica_bancaria" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Formulario de debida diligencia<input name="cliente_doc_juridica_diligencia" type="file" accept=".pdf,.jpg,.jpeg,.png"></label>
+            <label class="file-item">Documentación de beneficiario final<input name="cliente_doc_juridica_beneficiario" type="file" accept=".pdf,.jpg,.jpeg,.png"></label>
+          </div>
+        </div>
+        <div class="doc-group" data-doc-group="individual">
+          <h3 class="subsection-title">Persona individual</h3>
+          <div class="file-grid">
+            <label class="file-item">RTU actualizado / Identificador fiscal <span class="required">*</span><input name="cliente_doc_individual_rtu" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">DPI o pasaporte <span class="required">*</span><input name="cliente_doc_individual_dpi" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Patente de comercio<input name="cliente_doc_individual_patente" type="file" accept=".pdf,.jpg,.jpeg,.png"></label>
+            <label class="file-item">Certificación bancaria <span class="required">*</span><input name="cliente_doc_individual_bancaria" type="file" accept=".pdf,.jpg,.jpeg,.png" required></label>
+            <label class="file-item">Formulario de debida diligencia<input name="cliente_doc_individual_diligencia" type="file" accept=".pdf,.jpg,.jpeg,.png"></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset data-after-request-section>
+        <legend>F. Referencias comerciales</legend>
+        <div class="reference-grid">
+          <section class="reference-block">
+            <h4>Referencia #1 Obligatorio</h4>
+            <div class="form-grid">
+              <div class="field"><label for="cliente_ref1_compania">Compañía <span class="required">*</span></label><input id="cliente_ref1_compania" name="ref1_compania" type="text" required></div>
+              <div class="field"><label for="cliente_ref1_contacto">Contacto <span class="required">*</span></label><input id="cliente_ref1_contacto" name="ref1_contacto" type="text" required></div>
+              <div class="field"><label for="cliente_ref1_telefono">Teléfono <span class="required">*</span></label><input id="cliente_ref1_telefono" name="ref1_telefono" type="tel" required></div>
+              <div class="field"><label for="cliente_ref1_correo">Correo electrónico <span class="required">*</span></label><input id="cliente_ref1_correo" name="ref1_correo" type="email" required></div>
+            </div>
+          </section>
+          <section class="reference-block">
+            <h4>Referencia #2 Obligatorio</h4>
+            <div class="form-grid">
+              <div class="field"><label for="cliente_ref2_compania">Compañía <span class="required">*</span></label><input id="cliente_ref2_compania" name="ref2_compania" type="text" required></div>
+              <div class="field"><label for="cliente_ref2_contacto">Contacto <span class="required">*</span></label><input id="cliente_ref2_contacto" name="ref2_contacto" type="text" required></div>
+              <div class="field"><label for="cliente_ref2_telefono">Teléfono <span class="required">*</span></label><input id="cliente_ref2_telefono" name="ref2_telefono" type="tel" required></div>
+              <div class="field"><label for="cliente_ref2_correo">Correo electrónico <span class="required">*</span></label><input id="cliente_ref2_correo" name="ref2_correo" type="email" required></div>
+            </div>
+          </section>
+          <section class="reference-block">
+            <h4>Referencia #3</h4>
+            <div class="form-grid">
+              <div class="field"><label for="cliente_ref3_compania">Compañía</label><input id="cliente_ref3_compania" name="ref3_compania" type="text"></div>
+              <div class="field"><label for="cliente_ref3_contacto">Contacto</label><input id="cliente_ref3_contacto" name="ref3_contacto" type="text"></div>
+              <div class="field"><label for="cliente_ref3_telefono">Teléfono</label><input id="cliente_ref3_telefono" name="ref3_telefono" type="tel"></div>
+              <div class="field"><label for="cliente_ref3_correo">Correo electrónico</label><input id="cliente_ref3_correo" name="ref3_correo" type="email"></div>
+            </div>
+          </section>
+        </div>
+      </fieldset>
+
+      <fieldset data-after-request-section>
+        <legend>Nombre y confirmación del solicitante</legend>
+        <div class="form-grid">
+          <div class="field"><label for="cliente_nombre_confirmacion_solicitante">Nombre del solicitante <span class="required">*</span></label><input id="cliente_nombre_confirmacion_solicitante" name="nombre_confirmacion_solicitante" type="text" required></div>
+          <div class="field full">
+            <label class="choice"><input type="checkbox" name="confirmacion_solicitante_cliente" value="si" required> Al confirmar acepto que toda la información proporcionada es correcta. <span class="required">*</span></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <!--<fieldset data-after-request-section>
+        <legend>Uso exclusivo para el equipo de Datos Maestros</legend>
+        <div class="form-grid">
+          <div class="field"><label for="cliente_codigo">Código del cliente</label><input id="cliente_codigo" name="codigo_cliente" type="text"></div>
+          <div class="field"><label for="cliente_observaciones">Observaciones</label><input id="cliente_observaciones" name="observaciones_datos_maestros" type="text"></div>
+        </div>
+      </fieldset> -->
+
+      <div class="submit-row">
+        <p class="status-message" role="status" aria-live="polite"></p>
+        <button type="submit">Enviar formulario</button>
+      </div>
+    </form>
+
+  </main>
+
+  <div class="success-modal" data-success-modal hidden>
+    <div class="success-box" role="dialog" aria-modal="true" aria-labelledby="success-title">
+      <div class="success-icon" aria-hidden="true">&#10003;</div>
+      <h2 id="success-title">Solicitud ingresada correctamente</h2>
+      <p>Se ha ingresado su solicitud correctamente,<br>le notificaremos cuando su solicitud haya sido finalizada.</p>
+      <button type="button" data-success-ok>OK</button>
+    </div>
+  </div>
+
+  <script src="config.local.js"></script>
+  <script>
+    const POWER_AUTOMATE_ENDPOINT = window.PROVFORM_CONFIG?.powerAutomateEndpoint || "";
+    const formButtons = document.querySelectorAll('.switcher button');
+    const forms = document.querySelectorAll('.form-panel');
+    const successModal = document.querySelector('[data-success-modal]');
+    const successOkButton = document.querySelector('[data-success-ok]');
+    let pendingSuccessForm = null;
+    let pendingSuccessStatus = null;
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    function getCompanyCode(companyName) {
+      const normalized = (companyName || '')
+        .toUpperCase()
+        .replace(/\u00a0/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      if (normalized.includes('REPIMEX')) return 'RX';
+      if (normalized.includes('GUATEMAR')) return 'GM';
+      if (normalized.includes('IMC')) return 'IMC';
+      if (normalized.includes('CENTRO DE SERVICIOS COMPARTIDOS')) return 'CSC';
+      if (normalized.includes('CENTRANS')) return 'CI';
+      if (normalized.includes('EMAPAC')) return 'EMA';
+      if (normalized.includes('TALPORT')) return 'TP';
+      if (normalized.includes('PROMARES')) return 'PROMARES';
+      return 'OTRO';
+    }
+
+    function setRequestDates() {
+      document.querySelectorAll('input[type="date"][readonly]').forEach((input) => {
+        input.value = today;
+      });
+    }
+
+    setRequestDates();
+
+    document.querySelectorAll('input, select, textarea').forEach((control) => {
+      control.dataset.originalRequired = control.required ? 'true' : 'false';
+    });
+
+    formButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const target = button.dataset.target;
+        formButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        forms.forEach((form) => form.classList.toggle('active', form.id === target));
+        document.getElementById(target).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    function setContainerEnabled(container, enabled) {
+      if (!container) return;
+      container.querySelectorAll('input, select, textarea').forEach((control) => {
+        control.disabled = !enabled;
+        control.required = enabled && control.dataset.originalRequired === 'true';
+      });
+    }
+
+    function syncRequestSections(form) {
+      const selectedRequestType = form.querySelector('input[name^="tipo_solicitud_"]:checked')?.value || '';
+      const hasRequestType = form.dataset.formType === 'caja_chica' || Boolean(selectedRequestType);
+      const isSupplierOrCustomer = ['proveedor', 'cliente'].includes(form.dataset.formType);
+      const isInactivation = isSupplierOrCustomer && selectedRequestType === 'inactivacion';
+      const isModification = isSupplierOrCustomer && selectedRequestType === 'modificacion';
+
+      form.querySelectorAll('[data-after-request-section]').forEach((section) => {
+        const isGeneralDataSection = section.matches('[data-provider-general-section], [data-client-general-section]');
+        const shouldShowSection = hasRequestType && !(isInactivation && !isGeneralDataSection);
+        section.dataset.requestHidden = String(!shouldShowSection);
+        setContainerEnabled(section, shouldShowSection);
+      });
+
+      if (isSupplierOrCustomer) {
+        const generalSection = form.querySelector('[data-provider-general-section], [data-client-general-section]');
+        generalSection?.querySelectorAll('[data-inactivation-excluded]').forEach((field) => {
+          field.hidden = isInactivation;
+          setContainerEnabled(field, hasRequestType && !isInactivation);
+        });
+        generalSection?.querySelectorAll('[data-inactivation-only]').forEach((field) => {
+          field.hidden = !isInactivation;
+          setContainerEnabled(field, hasRequestType && isInactivation);
+        });
+        generalSection?.querySelectorAll('[data-modification-only]').forEach((note) => {
+          note.hidden = !isModification;
+        });
+      }
+
+      return hasRequestType;
+    }
+
+    function syncCscDepartment(form) {
+      const company = form.querySelector('[name="empresa_solicitante"]');
+      const department = form.querySelector('[data-csc-department]');
+      const departmentField = form.querySelector('[data-csc-department-field]');
+      if (!company || !department) return;
+
+      const isCsc = company.value === 'CENTRO DE SERVICIOS COMPARTIDOS S.A.';
+      if (departmentField) {
+        departmentField.dataset.cscDepartmentHidden = String(!isCsc);
+      }
+      department.disabled = !isCsc;
+      department.required = isCsc;
+
+      if (!isCsc) {
+        department.value = '';
+      }
+    }
+
+    function syncBankTypeFromGroup(form) {
+      const groupSelect = form.querySelector('[data-group-select]');
+      if (!groupSelect || !groupSelect.value) return;
+
+      const bankType = groupSelect.value === 'exterior' ? 'foreign' : 'national';
+      const bankTypeControl = form.querySelector(`[data-bank-type][value="${bankType}"]`);
+      if (bankTypeControl) {
+        bankTypeControl.checked = true;
+      }
+    }
+
+    function syncBankGroups(form) {
+      const selectedType = form.querySelector('[data-bank-type]:checked');
+      const value = selectedType ? selectedType.value : '';
+      const groups = form.querySelectorAll('[data-bank-group]');
+
+      groups.forEach((group) => {
+        const kind = group.dataset.bankGroup;
+        const show = value && kind === value;
+        group.hidden = !show;
+        setContainerEnabled(group, show);
+      });
+    }
+
+    function syncDocumentation(form) {
+      const selected = form.querySelector('[data-person-type]:checked');
+      const personType = selected ? selected.value : '';
+
+      form.querySelectorAll('[data-doc-group]').forEach((group) => {
+        const show = personType && group.dataset.docGroup === personType;
+        group.hidden = !show;
+        setContainerEnabled(group, show);
+      });
+    }
+
+    function syncForm(form) {
+      syncCscDepartment(form);
+      const hasRequestType = syncRequestSections(form);
+      const isSupplierOrCustomerInactivation = ['proveedor', 'cliente'].includes(form.dataset.formType)
+        && form.querySelector('input[name^="tipo_solicitud_"]:checked')?.value === 'inactivacion';
+      if (!hasRequestType || isSupplierOrCustomerInactivation) return;
+
+      syncBankGroups(form);
+      syncDocumentation(form);
+    }
+
+    function resetFormAfterSubmit(form, status) {
+      form.reset();
+      setRequestDates();
+      syncForm(form);
+      status.textContent = '';
+      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function showSuccessMessage(form, status) {
+      if (!successModal || !successOkButton) {
+        resetFormAfterSubmit(form, status);
+        return;
+      }
+
+      pendingSuccessForm = form;
+      pendingSuccessStatus = status;
+      status.textContent = 'Solicitud enviada correctamente.';
+      successModal.hidden = false;
+      successOkButton.focus();
+    }
+
+    function confirmSuccessMessage() {
+      if (pendingSuccessForm && pendingSuccessStatus) {
+        resetFormAfterSubmit(pendingSuccessForm, pendingSuccessStatus);
+      }
+
+      pendingSuccessForm = null;
+      pendingSuccessStatus = null;
+
+      if (successModal) {
+        successModal.hidden = true;
+      }
+    }
+
+    function getFormPayload(form) {
+      const values = {};
+      const files = {};
+
+      Array.from(form.elements).forEach((control) => {
+        if (!control.name || control.disabled) return;
+
+        if (control.type === 'radio') {
+          if (control.checked) values[control.name] = control.value;
+          return;
+        }
+
+        if (control.type === 'checkbox') {
+          values[control.name] = control.checked ? control.value : '';
+          return;
+        }
+
+        if (control.type === 'file') {
+          files[control.name] = Array.from(control.files).map((file) => ({
+            name: file.name,
+            size: file.size,
+            type: file.type,
+          }));
+          return;
+        }
+
+        values[control.name] = control.value;
+      });
+
+      const empresaCodigo = getCompanyCode(values.empresa_solicitante);
+      values.empresa_codigo = empresaCodigo;
+
+      return {
+        formulario: form.dataset.formType,
+        fecha_envio: new Date().toISOString(),
+        empresa_solicitante: values.empresa_solicitante || '',
+        empresa_codigo: empresaCodigo,
+        tipo_solicitud: values[`tipo_solicitud_${form.dataset.formType}`] || (form.dataset.formType === 'caja_chica' ? 'creacion_caja_chica' : ''),
+        solicitado_por: values.solicitado_por || '',
+        correo_solicitante: values.correo_solicitante || '',
+        datos: values,
+        archivos: files,
+      };
+    }
+
+    async function sendToPowerAutomate(form, status) {
+      const payload = getFormPayload(form);
+
+      if (!POWER_AUTOMATE_ENDPOINT) {
+        console.info('Payload para Power Automate:', payload);
+        status.textContent = 'Falta configurar la URL del flujo de Power Automate.';
+        return false;
+      }
+
+      const response = await fetch(POWER_AUTOMATE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Power Automate respondió con estado ${response.status}: ${errorText}`);
+      }
+
+      return true;
+    }
+
+    forms.forEach((form) => {
+      form.addEventListener('change', (event) => {
+        if (event.target.matches('[data-group-select]')) {
+          syncBankTypeFromGroup(form);
+        }
+        syncForm(form);
+      });
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        syncForm(form);
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const status = form.querySelector('.status-message');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        if (!status || !submitButton) return;
+
+        status.textContent = 'Enviando solicitud...';
+        submitButton.disabled = true;
+
+        try {
+          const sent = await sendToPowerAutomate(form, status);
+          if (sent) {
+            showSuccessMessage(form, status);
+          }
+        } catch (error) {
+          console.error(error);
+          status.textContent = 'No se pudo enviar la solicitud.';
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+
+      syncForm(form);
+    });
+
+    if (successOkButton) {
+      successOkButton.addEventListener('click', confirmSuccessMessage);
+    }
+  </script>
+</body>
+</html>
