@@ -1,0 +1,1 @@
+window.PROVFORM_CONFIG = { powerAutomateEndpoint: "https://default8025d0a6c807420a9a6c85c04d5978.6f.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/18/workflows/c8dd6cc69bca4f1aab4734ec0ae6ff7c/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=KXZs5EJDGZQQOEvgXOxey2A4lsb0C6kVonKHieTOm78" };
