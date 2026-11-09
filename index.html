@@ -599,7 +599,7 @@
         </div>
       </fieldset>
 
-      <fieldset data-after-request-section>
+      <fieldset data-after-request-section data-supplier-tax-section>
         <legend>C. Información tributaria</legend>
         <div class="choice-grid">
           <div><span class="field-label">ISR sobre utilidades <span class="required">*</span></span><label class="choice"><input type="radio" name="proveedor_isr_utilidades" value="si" required> Sí</label><label class="choice"><input type="radio" name="proveedor_isr_utilidades" value="no"> No</label></div>
@@ -911,9 +911,9 @@
           <div class="field" data-inactivation-excluded><label for="cliente_puesto_comercial">Puesto del contacto comercial <span class="required">*</span></label><input id="cliente_puesto_comercial" name="puesto_contacto_comercial" type="text" required></div>
           <div class="field" data-inactivation-excluded><label for="cliente_telefono_comercial">Teléfono del contacto comercial <span class="required">*</span></label><input id="cliente_telefono_comercial" name="telefono_contacto_comercial" type="tel" required></div>
           <div class="field" data-inactivation-excluded><label for="cliente_email_comercial">Correo electrónico del contacto comercial <span class="required">*</span></label><input id="cliente_email_comercial" name="correo_contacto_comercial" type="email" required></div>
-          <div class="field" data-inactivation-excluded><label for="cliente_contacto_conta">Nombre de contacto de contabilidad <span class="required">*</span></label><input id="cliente_contacto_conta" name="nombre_contacto_contabilidad" type="text" required></div>
+          <div class="field" data-inactivation-excluded><label for="cliente_contacto_pago">Nombre de contacto de pago <span class="required">*</span></label><input id="cliente_contacto_pago" name="nombre_contacto_contabilidad" type="text" required></div>
           <div class="field" data-inactivation-excluded><label for="cliente_puesto_conta">Puesto del contacto de contabilidad <span class="required">*</span></label><input id="cliente_puesto_conta" name="puesto_contacto_contabilidad" type="text" required></div>
-          <div class="field" data-inactivation-excluded><label for="cliente_telefono_conta">Teléfono del contacto de contabilidad <span class="required">*</span></label><input id="cliente_telefono_conta" name="telefono_contacto_contabilidad" type="tel" required></div>
+          <div class="field" data-inactivation-excluded><label for="cliente_telefono_pago">Teléfono del contacto de pago <span class="required">*</span></label><input id="cliente_telefono_pago" name="telefono_contacto_contabilidad" type="tel" required></div>
           <div class="field" data-inactivation-excluded><label for="cliente_email_conta">Correo electrónico del contacto de contabilidad <span class="required">*</span></label><input id="cliente_email_conta" name="correo_contacto_contabilidad" type="email" required></div>
           <div class="field" data-inactivation-excluded><label for="cliente_web">Página web</label><input id="cliente_web" name="pagina_web" type="url"></div>
           <div class="field" data-inactivation-excluded>
@@ -1181,6 +1181,20 @@
       return hasRequestType;
     }
 
+    function syncSupplierTaxSection(form) {
+      if (form.dataset.formType !== 'proveedor') return;
+
+      const taxSection = form.querySelector('[data-supplier-tax-section]');
+      const group = form.querySelector('[data-group-select]');
+      if (!taxSection || !group) return;
+
+      const sectionIsVisible = taxSection.dataset.requestHidden !== 'true';
+      const isForeignSupplier = group.value === 'exterior';
+      setContainerEnabled(taxSection, sectionIsVisible && !isForeignSupplier);
+      taxSection.dataset.exteriorDisabled = String(sectionIsVisible && isForeignSupplier);
+      taxSection.setAttribute('aria-disabled', String(sectionIsVisible && isForeignSupplier));
+    }
+
     function syncCscDepartment(form) {
       const company = form.querySelector('[name="empresa_solicitante"]');
       const department = form.querySelector('[data-csc-department]');
@@ -1237,6 +1251,7 @@
     function syncForm(form) {
       syncCscDepartment(form);
       const hasRequestType = syncRequestSections(form);
+      syncSupplierTaxSection(form);
       const isSupplierOrCustomerInactivation = ['proveedor', 'cliente'].includes(form.dataset.formType)
         && form.querySelector('input[name^="tipo_solicitud_"]:checked')?.value === 'inactivacion';
       if (!hasRequestType || isSupplierOrCustomerInactivation) return;
