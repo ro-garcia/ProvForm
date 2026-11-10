@@ -286,7 +286,8 @@
     .bank-group[hidden],
     .doc-group[hidden],
     [data-csc-department-hidden="true"],
-    [data-request-hidden="true"] {
+    [data-request-hidden="true"],
+    [data-exterior-hidden="true"] {
       display: none;
     }
 
@@ -1191,8 +1192,10 @@
       const sectionIsVisible = taxSection.dataset.requestHidden !== 'true';
       const isForeignSupplier = group.value === 'exterior';
       setContainerEnabled(taxSection, sectionIsVisible && !isForeignSupplier);
-      taxSection.dataset.exteriorDisabled = String(sectionIsVisible && isForeignSupplier);
-      taxSection.setAttribute('aria-disabled', String(sectionIsVisible && isForeignSupplier));
+      const shouldHideSection = sectionIsVisible && isForeignSupplier;
+      taxSection.dataset.exteriorHidden = String(shouldHideSection);
+      taxSection.setAttribute('aria-hidden', String(shouldHideSection));
+      taxSection.setAttribute('aria-disabled', String(shouldHideSection));
     }
 
     function syncCscDepartment(form) {
