@@ -44,6 +44,10 @@ Agregar estas variables tipo `String`:
 
 El formulario envia `empresa_codigo` junto con el nombre completo de la empresa.
 
+Proveedor y cliente permiten seleccionar varias empresas. Para conservar el flujo actual, los campos existentes siguen siendo texto: `empresa_solicitante` contiene los nombres separados por punto y coma y `empresa_codigo` contiene el codigo usado por el `Switch`. Cuando se incluye CSC, `empresa_codigo` toma el valor `CSC` para activar el enrutamiento por departamento; si no se incluye CSC, se usa el codigo de la primera empresa en el orden del selector. Los arreglos `empresas_solicitantes` y `empresas_codigo` contienen todas las empresas elegidas. Si el flujo debe enrutar a un aprobador por cada empresa seleccionada, debe procesar esos arreglos con un `Aplicar a cada uno`.
+
+El departamento solo se solicita cuando CSC esta entre las empresas seleccionadas. En ese caso, el valor se mantiene en `datos.departamento_solicitante`.
+
 Agregar un `Modificador` / `Switch` usando:
 
 ```text

@@ -1,14 +1,30 @@
 {
   "formulario": "proveedor",
   "fecha_envio": "2026-09-24T15:00:00.000Z",
-  "empresa_solicitante": "REPIMEX S.A.",
-  "empresa_codigo": "RX",
+  "empresa_solicitante": "REPIMEX S.A.; CENTRO DE SERVICIOS COMPARTIDOS S.A.",
+  "empresa_codigo": "CSC",
+  "empresas_solicitantes": [
+    "REPIMEX S.A.",
+    "CENTRO DE SERVICIOS COMPARTIDOS S.A."
+  ],
+  "empresas_codigo": [
+    "RX",
+    "CSC"
+  ],
   "tipo_solicitud": "creacion",
   "solicitado_por": "Nombre Apellido",
   "correo_solicitante": "solicitante@example.com",
   "datos": {
-    "empresa_solicitante": "REPIMEX S.A.",
-    "empresa_codigo": "RX",
+    "empresa_solicitante": "REPIMEX S.A.; CENTRO DE SERVICIOS COMPARTIDOS S.A.",
+    "empresa_codigo": "CSC",
+    "empresas_solicitantes": [
+      "REPIMEX S.A.",
+      "CENTRO DE SERVICIOS COMPARTIDOS S.A."
+    ],
+    "empresas_codigo": [
+      "RX",
+      "CSC"
+    ],
     "departamento_solicitante": "FINANZAS",
     "solicitado_por": "Nombre Apellido",
     "correo_solicitante": "solicitante@example.com",

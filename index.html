@@ -182,6 +182,13 @@
       min-width: 0;
     }
 
+    .field-hint {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.4;
+    }
+
     .field.full {
       grid-column: 1 / -1;
     }
@@ -214,6 +221,11 @@
       border-radius: 6px;
       color: var(--ink);
       background: #ffffff;
+    }
+
+    select[multiple] {
+      min-height: 150px;
+      padding: 8px;
     }
 
     textarea {
@@ -465,8 +477,7 @@
         <div class="form-grid">
           <div class="field">
             <label for="proveedor_empresa">Empresa solicitante <span class="required">*</span></label>
-            <select id="proveedor_empresa" name="empresa_solicitante" required>
-              <option value="" selected></option>
+            <select id="proveedor_empresa" name="empresa_solicitante" required multiple size="5" aria-describedby="proveedor_empresa_hint">
               <option value="REPIMEX S.A.">REPIMEX S.A.</option>
               <option value="GUATEMAR S.A.">GUATEMAR S.A.</option>
               <option value="IMC S.A.">IMC S.A.</option>
@@ -476,6 +487,7 @@
               <option value="TALPORT S.A.">TALPORT S.A.</option>
               <option value="PROMARES S.A.">PROMARES S.A.</option>
             </select>
+            <p id="proveedor_empresa_hint" class="field-hint">Puede elegir varias empresas. Mantenga presionada Ctrl mientras hace clic en cada una.</p>
           </div>
           <div class="field" data-csc-department-field>
             <label for="proveedor_departamento">Departamento solicitante <span class="required">*</span></label>
@@ -844,8 +856,7 @@
         <div class="form-grid">
           <div class="field">
             <label for="cliente_empresa">Empresa solicitante <span class="required">*</span></label>
-            <select id="cliente_empresa" name="empresa_solicitante" required>
-              <option value="" selected></option>
+            <select id="cliente_empresa" name="empresa_solicitante" required multiple size="5" aria-describedby="cliente_empresa_hint">
               <option value="REPIMEX S.A.">REPIMEX S.A.</option>
               <option value="GUATEMAR S.A.">GUATEMAR S.A.</option>
               <option value="IMC S.A.">IMC S.A.</option>
@@ -855,6 +866,7 @@
               <option value="TALPORT S.A.">TALPORT S.A.</option>
               <option value="PROMARES S.A.">PROMARES S.A.</option>
             </select>
+            <p id="cliente_empresa_hint" class="field-hint">Puede elegir varias empresas. Mantenga presionada Ctrl mientras hace clic en cada una.</p>
           </div>
           <div class="field" data-csc-department-field>
             <label for="cliente_departamento">Departamento solicitante <span class="required">*</span></label>
@@ -1204,7 +1216,10 @@
       const departmentField = form.querySelector('[data-csc-department-field]');
       if (!company || !department) return;
 
-      const isCsc = company.value === 'CENTRO DE SERVICIOS COMPARTIDOS S.A.';
+      const selectedCompanies = company.multiple
+        ? Array.from(company.selectedOptions, (option) => option.value)
+        : [company.value].filter(Boolean);
+      const isCsc = selectedCompanies.includes('CENTRO DE SERVICIOS COMPARTIDOS S.A.');
       if (departmentField) {
         departmentField.dataset.cscDepartmentHidden = String(!isCsc);
       }
@@ -1304,6 +1319,11 @@
       Array.from(form.elements).forEach((control) => {
         if (!control.name || control.disabled) return;
 
+        if (control instanceof HTMLSelectElement && control.multiple) {
+          values[control.name] = Array.from(control.selectedOptions, (option) => option.value);
+          return;
+        }
+
         if (control.type === 'radio') {
           if (control.checked) values[control.name] = control.value;
           return;
@@ -1326,13 +1346,27 @@
         values[control.name] = control.value;
       });
 
-      const empresaCodigo = getCompanyCode(values.empresa_solicitante);
+      const companyControl = form.querySelector('[name="empresa_solicitante"]');
+      const hasMultipleCompanies = Boolean(companyControl?.multiple);
+      const selectedCompanies = Array.isArray(values.empresa_solicitante)
+        ? values.empresa_solicitante
+        : [values.empresa_solicitante].filter(Boolean);
+      const cscCompany = 'CENTRO DE SERVICIOS COMPARTIDOS S.A.';
+      const routingCompany = selectedCompanies.includes(cscCompany) ? cscCompany : (selectedCompanies[0] || '');
+      const companyDisplayName = selectedCompanies.join('; ');
+      const companyCodes = selectedCompanies.map(getCompanyCode);
+      const empresaCodigo = routingCompany ? getCompanyCode(routingCompany) : '';
+      values.empresa_solicitante = companyDisplayName;
       values.empresa_codigo = empresaCodigo;
+      if (hasMultipleCompanies) {
+        values.empresas_solicitantes = selectedCompanies;
+        values.empresas_codigo = companyCodes;
+      }
 
-      return {
+      const payload = {
         formulario: form.dataset.formType,
         fecha_envio: new Date().toISOString(),
-        empresa_solicitante: values.empresa_solicitante || '',
+        empresa_solicitante: companyDisplayName,
         empresa_codigo: empresaCodigo,
         tipo_solicitud: values[`tipo_solicitud_${form.dataset.formType}`] || (form.dataset.formType === 'caja_chica' ? 'creacion_caja_chica' : ''),
         solicitado_por: values.solicitado_por || '',
@@ -1340,6 +1374,11 @@
         datos: values,
         archivos: files,
       };
+      if (hasMultipleCompanies) {
+        payload.empresas_solicitantes = selectedCompanies;
+        payload.empresas_codigo = companyCodes;
+      }
+      return payload;
     }
 
     async function sendToPowerAutomate(form, status) {
