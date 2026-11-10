@@ -189,6 +189,60 @@
       line-height: 1.4;
     }
 
+    .company-picker {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .company-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      min-width: 0;
+      min-height: 44px;
+      margin: 0;
+      padding: 11px 12px;
+      border: 1px solid #d5e1e8;
+      border-radius: 6px;
+      color: #37474f;
+      background: #ffffff;
+      font-weight: 500;
+      line-height: 1.35;
+      cursor: pointer;
+      transition: border-color 120ms ease, background-color 120ms ease;
+    }
+
+    .company-option:hover {
+      border-color: #829aa8;
+      background: #f7fafc;
+    }
+
+    .company-option.is-selected {
+      border-color: var(--brand-dark);
+      background: var(--soft);
+    }
+
+    .company-option:focus-within {
+      outline: 2px solid var(--brand-dark);
+      outline-offset: 2px;
+    }
+
+    .company-option input {
+      width: 18px;
+      height: 18px;
+      margin: 1px 0 0;
+      flex: 0 0 auto;
+      accent-color: var(--brand-dark);
+    }
+
+    .company-selection-status {
+      min-height: 1.2em;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
     .field.full {
       grid-column: 1 / -1;
     }
@@ -221,11 +275,6 @@
       border-radius: 6px;
       color: var(--ink);
       background: #ffffff;
-    }
-
-    select[multiple] {
-      min-height: 150px;
-      padding: 8px;
     }
 
     textarea {
@@ -442,6 +491,10 @@
     }
 
     @media (max-width: 520px) {
+      .company-picker {
+        grid-template-columns: 1fr;
+      }
+
       .page {
         width: min(100% - 20px, 1120px);
         margin-top: 16px;
@@ -476,18 +529,19 @@
         <legend>Datos de solicitud</legend>
         <div class="form-grid">
           <div class="field">
-            <label for="proveedor_empresa">Empresa solicitante <span class="required">*</span></label>
-            <select id="proveedor_empresa" name="empresa_solicitante" required multiple size="5" aria-describedby="proveedor_empresa_hint">
-              <option value="REPIMEX S.A.">REPIMEX S.A.</option>
-              <option value="GUATEMAR S.A.">GUATEMAR S.A.</option>
-              <option value="IMC S.A.">IMC S.A.</option>
-              <option value="CENTRO DE SERVICIOS COMPARTIDOS S.A.">CENTRO DE SERVICIOS COMPARTIDOS S.A.</option>
-              <option value="CENTRANS INTERNACIONAL S.A.">CENTRANS INTERNACIONAL S.A.</option>
-              <option value="EMAPAC S.A.">EMAPAC S.A.</option>
-              <option value="TALPORT S.A.">TALPORT S.A.</option>
-              <option value="PROMARES S.A.">PROMARES S.A.</option>
-            </select>
-            <p id="proveedor_empresa_hint" class="field-hint">Puede elegir varias empresas. Mantenga presionada Ctrl mientras hace clic en cada una.</p>
+            <span id="proveedor_empresa_label" class="field-label">Empresa solicitante <span class="required">*</span></span>
+            <div class="company-picker" data-company-picker role="group" aria-labelledby="proveedor_empresa_label" aria-describedby="proveedor_empresa_hint proveedor_empresa_count" aria-required="true">
+              <label class="company-option"><input type="checkbox" value="REPIMEX S.A." data-company-option> <span>REPIMEX S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="GUATEMAR S.A." data-company-option> <span>GUATEMAR S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="IMC S.A." data-company-option> <span>IMC S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="CENTRO DE SERVICIOS COMPARTIDOS S.A." data-company-option> <span>CENTRO DE SERVICIOS COMPARTIDOS S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="CENTRANS INTERNACIONAL S.A." data-company-option> <span>CENTRANS INTERNACIONAL S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="EMAPAC S.A." data-company-option> <span>EMAPAC S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="TALPORT S.A." data-company-option> <span>TALPORT S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="PROMARES S.A." data-company-option> <span>PROMARES S.A.</span></label>
+            </div>
+            <p id="proveedor_empresa_hint" class="field-hint">Marca una o más empresas. Si seleccionas CSC, también deberás elegir un departamento.</p>
+            <p id="proveedor_empresa_count" class="company-selection-status" data-company-selection role="status" aria-live="polite">Ninguna empresa seleccionada</p>
           </div>
           <div class="field" data-csc-department-field>
             <label for="proveedor_departamento">Departamento solicitante <span class="required">*</span></label>
@@ -855,18 +909,19 @@
         <legend>Datos de solicitud</legend>
         <div class="form-grid">
           <div class="field">
-            <label for="cliente_empresa">Empresa solicitante <span class="required">*</span></label>
-            <select id="cliente_empresa" name="empresa_solicitante" required multiple size="5" aria-describedby="cliente_empresa_hint">
-              <option value="REPIMEX S.A.">REPIMEX S.A.</option>
-              <option value="GUATEMAR S.A.">GUATEMAR S.A.</option>
-              <option value="IMC S.A.">IMC S.A.</option>
-              <option value="CENTRO DE SERVICIOS COMPARTIDOS S.A.">CENTRO DE SERVICIOS COMPARTIDOS S.A.</option>
-              <option value="CENTRANS INTERNACIONAL S.A.">CENTRANS INTERNACIONAL S.A.</option>
-              <option value="EMAPAC S.A.">EMAPAC S.A.</option>
-              <option value="TALPORT S.A.">TALPORT S.A.</option>
-              <option value="PROMARES S.A.">PROMARES S.A.</option>
-            </select>
-            <p id="cliente_empresa_hint" class="field-hint">Puede elegir varias empresas. Mantenga presionada Ctrl mientras hace clic en cada una.</p>
+            <span id="cliente_empresa_label" class="field-label">Empresa solicitante <span class="required">*</span></span>
+            <div class="company-picker" data-company-picker role="group" aria-labelledby="cliente_empresa_label" aria-describedby="cliente_empresa_hint cliente_empresa_count" aria-required="true">
+              <label class="company-option"><input type="checkbox" value="REPIMEX S.A." data-company-option> <span>REPIMEX S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="GUATEMAR S.A." data-company-option> <span>GUATEMAR S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="IMC S.A." data-company-option> <span>IMC S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="CENTRO DE SERVICIOS COMPARTIDOS S.A." data-company-option> <span>CENTRO DE SERVICIOS COMPARTIDOS S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="CENTRANS INTERNACIONAL S.A." data-company-option> <span>CENTRANS INTERNACIONAL S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="EMAPAC S.A." data-company-option> <span>EMAPAC S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="TALPORT S.A." data-company-option> <span>TALPORT S.A.</span></label>
+              <label class="company-option"><input type="checkbox" value="PROMARES S.A." data-company-option> <span>PROMARES S.A.</span></label>
+            </div>
+            <p id="cliente_empresa_hint" class="field-hint">Marca una o más empresas. Si seleccionas CSC, también deberás elegir un departamento.</p>
+            <p id="cliente_empresa_count" class="company-selection-status" data-company-selection role="status" aria-live="polite">Ninguna empresa seleccionada</p>
           </div>
           <div class="field" data-csc-department-field>
             <label for="cliente_departamento">Departamento solicitante <span class="required">*</span></label>
@@ -1211,13 +1266,14 @@
     }
 
     function syncCscDepartment(form) {
+      const companyPicker = form.querySelector('[data-company-picker]');
       const company = form.querySelector('[name="empresa_solicitante"]');
       const department = form.querySelector('[data-csc-department]');
       const departmentField = form.querySelector('[data-csc-department-field]');
-      if (!company || !department) return;
+      if (!department || (!companyPicker && !company)) return;
 
-      const selectedCompanies = company.multiple
-        ? Array.from(company.selectedOptions, (option) => option.value)
+      const selectedCompanies = companyPicker
+        ? Array.from(companyPicker.querySelectorAll('[data-company-option]:checked'), (option) => option.value)
         : [company.value].filter(Boolean);
       const isCsc = selectedCompanies.includes('CENTRO DE SERVICIOS COMPARTIDOS S.A.');
       if (departmentField) {
@@ -1229,6 +1285,29 @@
       if (!isCsc) {
         department.value = '';
       }
+    }
+
+    function syncCompanyPicker(form) {
+      const picker = form.querySelector('[data-company-picker]');
+      if (!picker) return [];
+
+      const options = Array.from(picker.querySelectorAll('[data-company-option]'));
+      const selectedOptions = options.filter((option) => option.checked);
+      options.forEach((option) => {
+        option.closest('.company-option')?.classList.toggle('is-selected', option.checked);
+      });
+
+      const validationControl = options[0];
+      validationControl?.setCustomValidity(selectedOptions.length ? '' : 'Selecciona al menos una empresa.');
+
+      const status = form.querySelector('[data-company-selection]');
+      if (status) {
+        status.textContent = selectedOptions.length === 0
+          ? 'Ninguna empresa seleccionada'
+          : `${selectedOptions.length} ${selectedOptions.length === 1 ? 'empresa seleccionada' : 'empresas seleccionadas'}`;
+      }
+
+      return selectedOptions.map((option) => option.value);
     }
 
     function syncBankTypeFromGroup(form) {
@@ -1267,6 +1346,7 @@
     }
 
     function syncForm(form) {
+      syncCompanyPicker(form);
       syncCscDepartment(form);
       const hasRequestType = syncRequestSections(form);
       syncSupplierTaxSection(form);
@@ -1319,11 +1399,6 @@
       Array.from(form.elements).forEach((control) => {
         if (!control.name || control.disabled) return;
 
-        if (control instanceof HTMLSelectElement && control.multiple) {
-          values[control.name] = Array.from(control.selectedOptions, (option) => option.value);
-          return;
-        }
-
         if (control.type === 'radio') {
           if (control.checked) values[control.name] = control.value;
           return;
@@ -1346,11 +1421,13 @@
         values[control.name] = control.value;
       });
 
-      const companyControl = form.querySelector('[name="empresa_solicitante"]');
-      const hasMultipleCompanies = Boolean(companyControl?.multiple);
-      const selectedCompanies = Array.isArray(values.empresa_solicitante)
-        ? values.empresa_solicitante
-        : [values.empresa_solicitante].filter(Boolean);
+      const companyPicker = form.querySelector('[data-company-picker]');
+      const hasMultipleCompanies = Boolean(companyPicker);
+      const selectedCompanies = companyPicker
+        ? Array.from(companyPicker.querySelectorAll('[data-company-option]:checked'), (option) => option.value)
+        : (Array.isArray(values.empresa_solicitante)
+          ? values.empresa_solicitante
+          : [values.empresa_solicitante].filter(Boolean));
       const cscCompany = 'CENTRO DE SERVICIOS COMPARTIDOS S.A.';
       const routingCompany = selectedCompanies.includes(cscCompany) ? cscCompany : (selectedCompanies[0] || '');
       const companyDisplayName = selectedCompanies.join('; ');
